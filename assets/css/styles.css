@@ -26,10 +26,11 @@
   --gutter: 20px;
   --section: clamp(72px, 11vw, 150px);
   --header-h: 76px;
+  --brand-reach: 150px; /* bottom edge of the big first-glance turbine */
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
-@media (min-width: 768px) { :root { --gutter: 40px; } }
-@media (min-width: 1200px) { :root { --header-h: 88px; } }
+@media (min-width: 768px) { :root { --gutter: 40px; --brand-reach: 175px; } }
+@media (min-width: 1200px) { :root { --header-h: 88px; --brand-reach: 296px; } }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -87,36 +88,47 @@ p { margin: 0 0 1.2em; }
 .text-link:hover svg { transform: translateX(4px); }
 
 /* ---------- Header ---------- */
+/* Two states (owner, 2026-10-08): "first glance" at the top of the page shows a big turbine and the owner's full
+   logo; once scrolled (.is-scrolled, main.js) or with the menu open, both ease into a compact navy bar. The bar is
+   navy, not white, because the owner's exact gold logo is made for navy and its pale lettering vanishes on white. */
 .site-header { position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--header-h); display: flex; align-items: center; transition: background .35s, border-color .35s; border-bottom: 1px solid transparent; }
 .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 @media (min-width: 480px) { .site-header .container { gap: 24px; } }
-.site-header.is-scrolled { background: #fff; border-bottom-color: var(--line); }
+.site-header.is-scrolled, .site-header.is-open { background: var(--navy-deep); border-bottom-color: rgba(255,255,255,.08); }
 
 .brand { display: flex; align-items: center; gap: 12px; color: #fff; min-height: 44px; margin-right: auto; }
 .brand:hover { color: inherit; }
-/* Wind turbine emblem, alone at top left: the tower stays still, only the rotor turns (owner requirement, 2026-10-07) */
-.brand__mark { width: 60px; height: 60px; flex: none; }
+/* Wind turbine, top left: the tower stays still, only the rotor turns. At first glance it is scaled up from its
+   top-left corner (transform, so the layout box and the nav never move). */
+.brand__mark { width: 60px; height: 60px; flex: none; transform-origin: left top; transform: scale(2.2); transition: transform .5s var(--ease); }
+.is-scrolled .brand__mark, .is-open .brand__mark { transform: none; }
 .brand__mark .turbine-rotor { transform-origin: 50px 40px; animation: spin 4s linear infinite; }
 .brand:hover .turbine-rotor { animation-duration: 2s; }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* Footer brand (turbine + wordmark) */
 .brand__text { display: flex; flex-direction: column; line-height: 1; }
-.brand__name { font-family: var(--font-brand); font-weight: 700; font-size: .95rem; letter-spacing: .12em; color: #fff; transition: color .35s; }
-.brand__sub { font-family: var(--font-brand); font-weight: 600; font-size: .55rem; letter-spacing: .58em; color: var(--gold-light); margin-top: 6px; transition: color .35s; }
-.is-scrolled .brand__name { color: var(--navy-deep); }
-.is-scrolled .brand__sub { color: var(--gold-dark); }
+.brand__name { font-family: var(--font-brand); font-weight: 700; font-size: .95rem; letter-spacing: .12em; color: #fff; }
+.brand__sub { font-family: var(--font-brand); font-weight: 600; font-size: .55rem; letter-spacing: .58em; color: var(--gold-light); margin-top: 6px; }
+.site-footer .brand__mark { transform: none; }
+@media (min-width: 768px) { .brand__mark { transform: scale(2.6); } }
 @media (min-width: 1200px) {
-  .brand__mark { width: 72px; height: 72px; }
+  /* drop it below the nav row so the spinning blades never sweep across the links */
+  .brand__mark { width: 72px; height: 72px; transform: translateY(60px) scale(3); }
   .brand__name { font-size: 1.1rem; }
   .brand__sub { font-size: .62rem; }
 }
 
-/* Logo lockup at top right: gold skyline mark + wordmark (owner request, 2026-10-07). Sits beside the menu button below 1200px. */
-.header-mark { display: flex; align-items: center; gap: 10px; flex: none; order: 2; min-height: 44px; }
-.header-mark:hover { color: inherit; }
-.header-mark svg { width: auto; height: 28px; }
+/* The owner's exact logo, top right (cut out of the supplied PNG). Beside the menu button below 1200px. */
+.header-mark { position: relative; display: flex; align-items: center; flex: none; order: 2; min-height: 44px; }
+.logo-full { position: absolute; top: 0; right: 0; width: 120px; height: auto; max-width: none; transform-origin: right top; transition: opacity .4s, transform .5s var(--ease); }
+.logo-row { display: flex; align-items: center; gap: 8px; opacity: 0; transition: opacity .4s; }
+.logo-row__mark { width: auto; height: 30px; }
+.logo-row__word { width: auto; height: 24px; }
+.is-scrolled .logo-full, .is-open .logo-full { opacity: 0; transform: scale(.6); }
+.is-scrolled .logo-row, .is-open .logo-row { opacity: 1; }
+@media (min-width: 768px) { .logo-full { width: 160px; } }
 
 .nav-toggle { order: 3; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-right: -12px; background: none; border: 0; cursor: pointer; color: #fff; }
-.is-scrolled .nav-toggle, .is-open .nav-toggle { color: var(--navy-deep); }
 .nav-toggle__bars { display: block; width: 24px; height: 2px; background: currentColor; position: relative; }
 .nav-toggle__bars::before, .nav-toggle__bars::after { content: ""; position: absolute; left: 0; width: 24px; height: 2px; background: currentColor; transition: transform .3s var(--ease), top .3s; }
 .nav-toggle__bars::before { top: -7px; }
@@ -125,10 +137,7 @@ p { margin: 0 0 1.2em; }
 .is-open .nav-toggle__bars::before { top: 0; transform: rotate(45deg); }
 .is-open .nav-toggle__bars::after { top: 0; transform: rotate(-45deg); }
 
-/* Mobile menu (default) */
-.site-header.is-open { background: #fff; border-bottom-color: var(--line); }
-.is-open .brand__name { color: var(--navy-deep); }
-.is-open .brand__sub { color: var(--gold-dark); }
+/* Mobile menu (default): white panel under the navy bar */
 .nav {
   position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; background: #fff;
   display: flex; flex-direction: column; padding: 16px var(--gutter) 40px; overflow-y: auto;
@@ -144,8 +153,11 @@ body.nav-open { overflow: hidden; }
 /* Desktop nav */
 @media (min-width: 1200px) {
   .nav-toggle { display: none; }
-  .header-mark { order: 0; gap: 12px; }
-  .header-mark svg { height: 34px; }
+  .header-mark { order: 0; }
+  .logo-full { width: 190px; }
+  .logo-row { gap: 10px; }
+  .logo-row__mark { height: 36px; }
+  .logo-row__word { height: 28px; }
   .nav { position: static; flex-direction: row; align-items: center; gap: 28px; padding: 0; background: none; overflow: visible; opacity: 1; visibility: visible; }
   .nav__list { display: flex; gap: 22px; }
   .nav__link { position: relative; min-height: 44px; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: #fff; border: 0; }
@@ -153,16 +165,24 @@ body.nav-open { overflow: hidden; }
   .nav__link:hover { color: #fff; }
   .nav__link:hover::after, .nav__link[aria-current="page"]::after { transform: scaleX(1); }
   .nav__link[aria-current="page"] { color: #fff; }
-  .is-scrolled .nav__link { color: var(--navy-deep); }
-  .is-scrolled .nav__link[aria-current="page"] { color: var(--gold-dark); }
-  .nav .btn { margin-top: 0; white-space: nowrap; }
+  .is-scrolled .nav__link[aria-current="page"] { color: var(--gold-light); }
+  .nav .btn { margin-top: 0; white-space: nowrap; transition: opacity .3s, visibility .3s; }
+  /* Home, first glance: the hero already has "Talk to the team", so the header copy waits until you scroll.
+     visibility (not display) keeps its space, so the nav never shifts. */
+  body:has(.hero) .site-header:not(.is-scrolled) .nav .btn { opacity: 0; visibility: hidden; }
 }
-/* 1200-1349: the logo lockup now shares the right side, so tighten the nav to keep one line */
+/* Contact page: the header CTA would link to the page you're on */
+.nav:has(.nav__link[href="contact.html"][aria-current="page"]) .btn { display: none; }
+@media (min-width: 1200px) {
+  .nav:has(.nav__link[href="contact.html"][aria-current="page"]) .btn { display: inline-flex; visibility: hidden; }
+}
+/* 1200-1349: the logo shares the right side, so tighten the nav to keep one line */
 @media (min-width: 1200px) and (max-width: 1349px) {
   .site-header .container { gap: 20px; }
   .nav { gap: 20px; }
   .nav__list { gap: 17px; }
 }
+
 
 /* ---------- Hero (home) ---------- */
 .hero { position: relative; min-height: max(720px, 100vh); min-height: max(720px, 100svh); display: flex; align-items: flex-end; color: #fff; background: var(--navy-deep); overflow: hidden; }
@@ -189,7 +209,7 @@ body.nav-open { overflow: hidden; }
 @keyframes barFill { to { transform: scaleX(1); } }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(15deg, rgba(4,12,38,.9) 0%, rgba(6,19,56,.6) 50%, rgba(6,19,56,.2) 100%); }
 .hero::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 180px; z-index: 1; background: linear-gradient(rgba(4,12,38,.5), transparent); }
-.hero__inner { position: relative; z-index: 2; padding-top: calc(var(--header-h) + 56px); padding-bottom: clamp(48px, 8vw, 96px); }
+.hero__inner { position: relative; z-index: 2; padding-top: max(calc(var(--header-h) + 56px), calc(var(--brand-reach) + 24px)); padding-bottom: clamp(48px, 8vw, 96px); }
 .hero h1 { color: #fff; font-size: clamp(2rem, 7vw, 4.2rem); max-width: 20ch; text-wrap: balance; margin-bottom: 24px; }
 .hero__lead { font-size: clamp(1.02rem, 1.5vw, 1.2rem); color: var(--on-dark); max-width: 640px; margin-bottom: 28px; }
 .hero__proof { font-size: .8rem; font-weight: 500; letter-spacing: .06em; color: var(--gold-light); max-width: 640px; margin: 0 0 36px; }
@@ -205,7 +225,7 @@ html:not(.no-js) .page-banner .container > :nth-child(2) { transition-delay: .15
 html:not(.no-js) .page-banner .container > :nth-child(3) { transition-delay: .3s; }
 html.is-loaded .page-banner .container > * { opacity: 1; transform: none; }
 .page-banner::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(15deg, rgba(4,12,38,.9) 0%, rgba(6,19,56,.55) 55%, rgba(6,19,56,.25) 100%); }
-.page-banner .container { position: relative; z-index: 2; padding-top: calc(var(--header-h) + 56px); padding-bottom: clamp(40px, 6vw, 72px); }
+.page-banner .container { position: relative; z-index: 2; padding-top: max(calc(var(--header-h) + 56px), calc(var(--brand-reach) + 24px)); padding-bottom: clamp(40px, 6vw, 72px); }
 .page-banner h1 { color: #fff; font-size: clamp(2rem, 5vw, 3.6rem); max-width: 22ch; text-wrap: balance; margin-bottom: 14px; }
 .page-banner p { color: var(--on-dark); font-size: 1.1rem; max-width: 620px; margin: 0; }
 @media (min-width: 768px) { .page-banner { min-height: 480px; } }
@@ -398,8 +418,7 @@ html.is-loaded .page-banner .container > * { opacity: 1; transform: none; }
 
 /* ---------- CTA block ---------- */
 .cta { background: var(--bg-alt); padding: clamp(64px, 9vw, 120px) 0; }
-.cta .container { display: grid; gap: 28px; align-items: end; }
-@media (min-width: 1024px) { .cta .container { grid-template-columns: 1fr auto; gap: 64px; } }
+.cta .container { display: grid; gap: 28px; justify-items: start; } /* button sits directly under its question */
 .cta h2 { margin: 0; max-width: 26ch; text-wrap: balance; }
 .cta p { margin: 12px 0 0; color: var(--muted); max-width: 560px; }
 
