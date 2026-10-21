@@ -159,6 +159,42 @@
     });
   }
 
+  /* ---------- Photo band slider (home, third section; owner 2026-10-21) ----------
+     Same calm crossfade as the hero. Holds while hovered/focused, off-screen or in a hidden tab, and has a pause
+     button. Inactive slides are inert so their links can't be tabbed to. Reduced motion: first slide only. */
+  var band = document.querySelector('[data-band]');
+  if (band && !reduceMotion) {
+    var bandSlides = Array.prototype.slice.call(band.querySelectorAll('.photo-band__slide'));
+    var bandControls = band.querySelector('.photo-band__controls');
+    var bandPause = band.querySelector('.photo-band__pause');
+    var bandCurrent = 0;
+    if (bandSlides.length > 1) {
+      bandControls.hidden = false;
+      rotator({
+        root: band,
+        interval: +band.getAttribute('data-band') || 8000,
+        count: bandSlides.length,
+        bars: Array.prototype.slice.call(bandControls.querySelectorAll('.photo-band__bars span')),
+        image: function (n) { return bandSlides[n].querySelector('img'); },
+        show: function (n) {
+          bandSlides[bandCurrent].classList.remove('is-active');
+          bandSlides[bandCurrent].inert = true;
+          bandSlides[n].classList.add('is-active');
+          bandSlides[n].inert = false;
+          bandCurrent = n;
+        }
+      });
+      band.addEventListener('mouseenter', function () { band.classList.add('is-held'); });
+      band.addEventListener('mouseleave', function () { band.classList.remove('is-held'); });
+      band.addEventListener('focusin', function () { band.classList.add('is-held'); });
+      band.addEventListener('focusout', function () { band.classList.remove('is-held'); });
+      bandPause.addEventListener('click', function () {
+        var paused = band.classList.toggle('is-paused');
+        bandPause.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
+      });
+    }
+  }
+
   /* ---------- Region spotlight (tabs; auto-advances until the visitor picks one) ---------- */
   var spot = document.querySelector('[data-spotlight]');
   if (spot) {

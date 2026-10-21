@@ -16,7 +16,7 @@
   <meta property="og:description" content="The research behind Autonomous Building Technology: energy-autonomous building design, off-grid energy modelling, EnergyPlus simulation and PV sizing.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&amp;fit=crop&amp;w=1200&amp;h=630&amp;q=75">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="assets/img/turbine.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,10 +58,10 @@
         </ul>
         <a class="btn btn--gold btn--sm" href="contact.html">Talk to the team</a>
       </nav>
-      <!-- The owner's exact logo (cut out of "Autonmous Building-Logo.png"): full lockup at first glance, compact row once scrolled -->
+      <!-- The owner's ORIGINAL logo, unaltered (cropped from "Autonmous Building-Logo.png" by tools/crop_logo.py, navy background
+           and blue arc included): a large plate at first glance, the same complete logo at bar height once scrolled -->
       <a class="header-mark" href="index.html" tabindex="-1" aria-hidden="true">
-        <img class="logo-full" src="assets/img/logo-full.png" alt="" width="446" height="300" fetchpriority="high">
-        <span class="logo-row"><img class="logo-row__mark" src="assets/img/logo-mark.png" alt="" width="92" height="80"><img class="logo-row__word" src="assets/img/logo-word.png" alt="" width="320" height="64"></span>
+        <img class="logo-full" src="assets/img/logo-original-400.webp" srcset="assets/img/logo-original-400.webp 400w, assets/img/logo-original-800.webp 800w" sizes="(min-width: 1200px) 200px, (min-width: 768px) 170px, 124px" alt="" width="880" height="665" fetchpriority="high">
       </a>
     </div>
   </header>
@@ -148,8 +148,7 @@
       <div class="footer-grid">
         <div class="footer-about">
           <a class="brand" href="index.html" aria-label="Autonomous Building Technology, home">
-            <img class="brand__mark" src="assets/img/turbine.svg" alt="" width="44" height="44">
-            <span class="brand__text"><span class="brand__name">AUTONOMOUS</span><span class="brand__sub">BUILDING</span></span>
+            <img class="footer-logo" src="assets/img/logo-original-400.webp" srcset="assets/img/logo-original-400.webp 400w, assets/img/logo-original-800.webp 800w" sizes="200px" alt="" width="880" height="665" loading="lazy" decoding="async">
           </a>
           <p>Buildings that generate, store and manage their own energy, <span class="nw">on-grid</span> or fully <span class="nw">off-grid</span>.</p>
           <!-- TODO: add the full postcode once confirmed (the brief gives "G1 3B", which is incomplete) -->

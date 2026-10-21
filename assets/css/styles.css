@@ -11,6 +11,9 @@
   --gold-light: #F2C94C;
   --gold-dark: #9A720A;
   --gold-grad: linear-gradient(135deg, #F2C94C 0%, #D4A017 60%, #B8860B 100%);
+  /* Menu green (owner, 2026-10-21): sampled from the Renewable Energy Focus cover the owner sent. Menu only. */
+  --green: #A0CB4A;
+  --green-light: #B9DA74;
   --bg: #FFFFFF;
   --bg-alt: #EEF1F6; /* cool grey-blue: visible against white, pairs with the navy */
   --text: #3A4254;
@@ -89,12 +92,17 @@ p { margin: 0 0 1.2em; }
 
 /* ---------- Header ---------- */
 /* Two states (owner, 2026-10-08): "first glance" at the top of the page shows a big turbine and the owner's full
-   logo; once scrolled (.is-scrolled, main.js) or with the menu open, both ease into a compact navy bar. The bar is
-   navy, not white, because the owner's exact gold logo is made for navy and its pale lettering vanishes on white. */
+   logo over the photo; once scrolled (.is-scrolled, main.js) or with the menu open, both ease into a compact bar.
+   The bar is the owner's lime GREEN (2026-10-21, "the green colour I would like to see on the menu") with navy text;
+   the logo keeps its own navy plate, and the turbine turns navy on the green (gold is too faint on lime). */
 .site-header { position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--header-h); display: flex; align-items: center; transition: background .35s, border-color .35s; border-bottom: 1px solid transparent; }
 .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 @media (min-width: 480px) { .site-header .container { gap: 24px; } }
-.site-header.is-scrolled, .site-header.is-open { background: var(--navy-deep); border-bottom-color: rgba(255,255,255,.08); }
+.site-header.is-scrolled, .site-header.is-open { background: var(--green); border-bottom-color: rgba(6,19,56,.12); }
+.is-scrolled :focus-visible, .is-open :focus-visible { outline-color: var(--navy-deep); }
+/* Turbine: gold over the photos, navy on the green bar */
+.brand__mark g { transition: fill .35s; }
+.is-scrolled .brand__mark g, .is-open .brand__mark g { fill: var(--navy-deep); }
 
 .brand { display: flex; align-items: center; gap: 12px; color: #fff; min-height: 44px; margin-right: auto; }
 .brand:hover { color: inherit; }
@@ -105,30 +113,23 @@ p { margin: 0 0 1.2em; }
 .brand__mark .turbine-rotor { transform-origin: 50px 40px; animation: spin 4s linear infinite; }
 .brand:hover .turbine-rotor { animation-duration: 2s; }
 @keyframes spin { to { transform: rotate(360deg); } }
-/* Footer brand (turbine + wordmark) */
-.brand__text { display: flex; flex-direction: column; line-height: 1; }
-.brand__name { font-family: var(--font-brand); font-weight: 700; font-size: .95rem; letter-spacing: .12em; color: #fff; }
-.brand__sub { font-family: var(--font-brand); font-weight: 600; font-size: .55rem; letter-spacing: .58em; color: var(--gold-light); margin-top: 6px; }
-.site-footer .brand__mark { transform: none; }
 @media (min-width: 768px) { .brand__mark { transform: scale(2.6); } }
 @media (min-width: 1200px) {
   /* drop it below the nav row so the spinning blades never sweep across the links */
   .brand__mark { width: 72px; height: 72px; transform: translateY(60px) scale(3); }
-  .brand__name { font-size: 1.1rem; }
-  .brand__sub { font-size: .62rem; }
 }
 
-/* The owner's exact logo, top right (cut out of the supplied PNG). Beside the menu button below 1200px. */
-.header-mark { position: relative; display: flex; align-items: center; flex: none; order: 2; min-height: 44px; }
-.logo-full { position: absolute; top: 0; right: 0; width: 120px; height: auto; max-width: none; transform-origin: right top; transition: opacity .4s, transform .5s var(--ease); }
-.logo-row { display: flex; align-items: center; gap: 8px; opacity: 0; transition: opacity .4s; }
-.logo-row__mark { width: auto; height: 30px; }
-.logo-row__word { width: auto; height: 24px; }
-.is-scrolled .logo-full, .is-open .logo-full { opacity: 0; transform: scale(.6); }
-.is-scrolled .logo-row, .is-open .logo-row { opacity: 1; }
-@media (min-width: 768px) { .logo-full { width: 160px; } }
+/* The owner's ORIGINAL logo, top right, shown exactly as supplied: its own navy background and blue arc, never cut out
+   or recoloured (owner, 2026-10-18). It hangs from the top edge as a navy plate over the photos. Beside the menu button
+   below 1200px. Compact state (owner, 2026-10-18): the same complete logo shrinks to fill the bar's height, top to bottom,
+   its navy blending into the bar. The box is the compact size; the first-glance plate overhangs it to the left. */
+.header-mark { --logo-compact: calc(var(--header-h) * 880 / 665); position: relative; flex: none; order: 2; width: var(--logo-compact); height: var(--header-h); }
+.logo-full { position: absolute; top: 0; right: 0; width: 124px; height: auto; max-width: none; border-radius: 0 0 4px 4px; box-shadow: 0 10px 30px rgba(3,10,29,.35); transition: width .5s var(--ease), box-shadow .4s, border-radius .4s; }
+.is-scrolled .logo-full, .is-open .logo-full { width: var(--logo-compact); border-radius: 0; box-shadow: none; }
+@media (min-width: 768px) { .logo-full { width: 170px; } }
 
-.nav-toggle { order: 3; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-right: -12px; background: none; border: 0; cursor: pointer; color: #fff; }
+.nav-toggle { order: 3; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-right: -12px; background: none; border: 0; cursor: pointer; color: #fff; transition: color .35s; }
+.is-scrolled .nav-toggle, .is-open .nav-toggle { color: var(--navy-deep); }
 .nav-toggle__bars { display: block; width: 24px; height: 2px; background: currentColor; position: relative; }
 .nav-toggle__bars::before, .nav-toggle__bars::after { content: ""; position: absolute; left: 0; width: 24px; height: 2px; background: currentColor; transition: transform .3s var(--ease), top .3s; }
 .nav-toggle__bars::before { top: -7px; }
@@ -137,35 +138,42 @@ p { margin: 0 0 1.2em; }
 .is-open .nav-toggle__bars::before { top: 0; transform: rotate(45deg); }
 .is-open .nav-toggle__bars::after { top: 0; transform: rotate(-45deg); }
 
-/* Mobile menu (default): white panel under the navy bar */
+/* Mobile menu (default): a green panel under the green bar */
 .nav {
-  position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; background: #fff;
+  position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; background: var(--green);
   display: flex; flex-direction: column; padding: 16px var(--gutter) 40px; overflow-y: auto;
   opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s;
 }
 .is-open .nav { opacity: 1; visibility: visible; }
 .nav__list { list-style: none; margin: 0; padding: 0; }
-.nav__link { display: flex; align-items: center; min-height: 64px; font-size: 1.4rem; font-weight: 500; letter-spacing: -0.01em; color: var(--navy-deep); border-bottom: 1px solid var(--line); }
-.nav__link[aria-current="page"] { color: var(--gold-dark); }
+.nav__link { display: flex; align-items: center; min-height: 64px; font-size: 1.4rem; font-weight: 500; letter-spacing: -0.01em; color: var(--navy-deep); border-bottom: 1px solid rgba(6,19,56,.15); }
+.nav__link:hover { color: var(--navy-deep); }
+.nav__link[aria-current="page"] { font-weight: 700; text-decoration: underline 2px; text-underline-offset: 8px; }
+/* Header "Talk to the team": green over the photos, navy on the green bar and in the phone menu */
+.site-header .btn--gold { background: var(--green); color: var(--navy-deep); }
+.site-header .btn--gold:hover { background: var(--green-light); color: var(--navy-deep); }
+.is-scrolled .btn--gold, .is-open .btn--gold { background: var(--navy-deep); color: #fff; }
+.is-scrolled .btn--gold:hover, .is-open .btn--gold:hover { background: var(--navy); color: #fff; }
 .nav .btn { margin-top: 32px; }
 body.nav-open { overflow: hidden; }
 
 /* Desktop nav */
 @media (min-width: 1200px) {
   .nav-toggle { display: none; }
-  .header-mark { order: 0; }
-  .logo-full { width: 190px; }
-  .logo-row { gap: 10px; }
-  .logo-row__mark { height: 36px; }
-  .logo-row__word { height: 28px; }
+  .header-mark { order: 0; width: 200px; } /* fixed, so the nav sits in the same place in both header states */
+  .logo-full { width: 200px; }
   .nav { position: static; flex-direction: row; align-items: center; gap: 28px; padding: 0; background: none; overflow: visible; opacity: 1; visibility: visible; }
   .nav__list { display: flex; gap: 22px; }
   .nav__link { position: relative; min-height: 44px; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: #fff; border: 0; }
   .nav__link::after { content: ""; position: absolute; left: 0; bottom: 8px; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
   .nav__link:hover { color: #fff; }
   .nav__link:hover::after, .nav__link[aria-current="page"]::after { transform: scaleX(1); }
-  .nav__link[aria-current="page"] { color: #fff; }
-  .is-scrolled .nav__link[aria-current="page"] { color: var(--gold-light); }
+  .nav__link[aria-current="page"] { color: #fff; font-weight: 500; text-decoration: none; }
+  .nav__link[aria-current="page"]::after { height: 2px; background: var(--green); }  /* green underline over the photo */
+  /* On the green bar: navy links, navy underlines */
+  .is-scrolled .nav__link, .is-scrolled .nav__link:hover { color: var(--navy-deep); }
+  .is-scrolled .nav__link[aria-current="page"] { color: var(--navy-deep); font-weight: 600; }
+  .is-scrolled .nav__link[aria-current="page"]::after { background: var(--navy-deep); }
   .nav .btn { margin-top: 0; white-space: nowrap; transition: opacity .3s, visibility .3s; }
   /* Home, first glance: the hero already has "Talk to the team", so the header copy waits until you scroll.
      visibility (not display) keeps its space, so the nav never shifts. */
@@ -203,7 +211,7 @@ body.nav-open { overflow: hidden; }
 .is-paused .hero__pause span { width: 0; height: 0; border-right: 0; border-left: 10px solid currentColor; border-top: 6px solid transparent; border-bottom: 6px solid transparent; margin-left: 3px; }
 
 /* Shared progress fill for rotating content (hero bars, region tabs). Its animationend drives the rotation. */
-.hero__bars span::after, .spotlight__bar::after { content: ""; position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: left; }
+.hero__bars span::after, .photo-band__bars span::after, .spotlight__bar::after { content: ""; position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: left; }
 .is-running::after { animation: barFill var(--interval, 7000ms) linear forwards; }
 .is-held .is-running::after, .is-paused .is-running::after, .is-away .is-running::after { animation-play-state: paused; }
 @keyframes barFill { to { transform: scaleX(1); } }
@@ -244,8 +252,31 @@ html.is-loaded .page-banner .container > * { opacity: 1; transform: none; }
 @media (min-width: 1024px) { .split { grid-template-columns: 1fr 1fr; } }
 .split > * { min-width: 0; }
 .statement { font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.2; margin: 0; }
-.photo-band img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--bg-alt); }
-@media (min-width: 1024px) { .photo-band img { aspect-ratio: 21 / 9; } }
+/* Photo band: a slow two-photo crossfade (owner, 2026-10-21) with a short caption + link per slide.
+   Driven by rotator() in main.js like the hero; reduced motion shows the first slide only. */
+.photo-band { position: relative; overflow: hidden; background: var(--navy-deep); color: #fff; }
+.photo-band__slides { position: relative; height: clamp(440px, 56.25vw, 560px); }
+@media (min-width: 1024px) { .photo-band__slides { height: clamp(460px, 42.86vw, 680px); } } /* 21:9 */
+.photo-band__slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 1.6s ease; }
+.photo-band__slide.is-active { opacity: 1; }
+.photo-band img { width: 100%; height: 100%; object-fit: cover; background: var(--bg-alt); }
+.photo-band__slide--school img { object-position: 50% 70%; } /* keep the building and the playground in a wide crop */
+.photo-band__slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(4,12,38,.88) 0%, rgba(6,19,56,.62) 34%, rgba(6,19,56,.18) 60%, rgba(6,19,56,0) 78%), linear-gradient(to right, rgba(4,12,38,.45) 0%, rgba(4,12,38,0) 55%); pointer-events: none; }
+.photo-band__cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding-bottom: 76px; display: grid; justify-items: start; gap: 10px; }
+/* Captions never overlap in the crossfade: the old one leaves quickly, the new one arrives once the photo has mostly changed */
+.photo-band__cap { opacity: 0; transition: opacity .35s ease; }
+.photo-band__slide.is-active .photo-band__cap { opacity: 1; transition: opacity .8s ease .9s; }
+.photo-band__text { text-shadow: 0 1px 14px rgba(4,12,38,.5); max-width: 34ch; font-size: clamp(1.1rem, 2vw, 1.45rem); font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; color: #fff; text-wrap: balance; }
+.photo-band .text-link { color: #fff; border-bottom-color: rgba(255,255,255,.35); }
+.photo-band .text-link:hover { color: #fff; border-color: var(--gold-light); }
+.photo-band__controls { position: absolute; left: 0; right: 0; bottom: 18px; z-index: 2; display: flex; align-items: center; gap: 16px; }
+.photo-band__controls[hidden] { display: none; }
+.photo-band__bars { display: flex; gap: 6px; width: min(180px, 40%); }
+.photo-band__bars span { flex: 1; height: 2px; background: rgba(255,255,255,.28); position: relative; overflow: hidden; }
+@media (min-width: 768px) {
+  .photo-band__cap { padding-bottom: clamp(48px, 6vw, 72px); }
+  .photo-band__controls { justify-content: flex-end; bottom: clamp(48px, 6vw, 72px); }
+}
 
 /* ---------- System: six parts, one outcome ---------- */
 /* Six designed parts in a hairline grid feed one navy "Autonomy" tile. All seven are one <ol>,
@@ -477,7 +508,8 @@ html.is-loaded .page-banner .container > * { opacity: 1; transform: none; }
 .site-footer ul { list-style: none; padding: 0; margin: 0; }
 .site-footer li a { display: inline-flex; align-items: center; min-height: 40px; color: var(--on-dark-muted); }
 .site-footer a:hover { color: #fff; }
-.site-footer .brand__name { color: #fff; }
+/* Footer: the owner's original logo, as supplied (its navy background sits on the navy footer) */
+.footer-logo { width: 200px; height: auto; border-radius: 4px; }
 .footer-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-top: 16px; padding-bottom: 16px; font-size: .85rem;
   /* Divider drawn inside the gutter so it lines up with the columns (a border would span the padding) */
   background: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,.1)) var(--gutter) 0 / calc(100% - 2 * var(--gutter)) 1px no-repeat; }
@@ -529,5 +561,5 @@ h2.reveal.is-visible, .statement.reveal.is-visible { clip-path: inset(-20% -5% -
   h2.reveal, .statement.reveal { clip-path: none; }
   .system.js-stagger .system__result::before, .system.js-stagger .system__result::after, .system.js-stagger .system__result h3::after, .js-stagger.info-grid--regions h3::after { transform: none; }
   .hero__slides, .page-banner__img, .photo-band img { translate: none; scale: none; }
-  .hero__controls, .spotlight__bar { display: none; }
+  .hero__controls, .photo-band__controls, .spotlight__bar { display: none; }
 }

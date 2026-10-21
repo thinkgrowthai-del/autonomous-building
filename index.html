@@ -16,7 +16,7 @@
   <meta property="og:description" content="We design buildings that generate, store and manage their own energy, on-grid or fully off-grid. Simulation-led engineering, from Scotland to the Persian Gulf.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&fit=crop&w=1200&h=630&q=75">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="assets/img/turbine.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,7 @@
     "@type": "ProfessionalService",
     "name": "Autonomous Building Technology",
     "url": "https://www.autonomous-building.co.uk/",
-    "logo": "https://www.autonomous-building.co.uk/assets/img/logo-dark.svg",
+    "logo": "https://www.autonomous-building.co.uk/assets/img/logo-original.png",
     "image": "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&fit=crop&w=1200&q=75",
     "description": "We design and engineer the whole building energy system (envelope, generation, storage, clean heat and energy, EV charging and controls) so buildings can run without dependence on outside energy networks.",
     "areaServed": ["Scotland", "United Kingdom", "Europe", "United States", "United Arab Emirates", "Persian Gulf"],
@@ -84,10 +84,10 @@
         </ul>
         <a class="btn btn--gold btn--sm" href="contact.html">Talk to the team</a>
       </nav>
-      <!-- The owner's exact logo (cut out of "Autonmous Building-Logo.png"): full lockup at first glance, compact row once scrolled -->
+      <!-- The owner's ORIGINAL logo, unaltered (cropped from "Autonmous Building-Logo.png" by tools/crop_logo.py, navy background
+           and blue arc included): a large plate at first glance, the same complete logo at bar height once scrolled -->
       <a class="header-mark" href="index.html" tabindex="-1" aria-hidden="true">
-        <img class="logo-full" src="assets/img/logo-full.png" alt="" width="446" height="300" fetchpriority="high">
-        <span class="logo-row"><img class="logo-row__mark" src="assets/img/logo-mark.png" alt="" width="92" height="80"><img class="logo-row__word" src="assets/img/logo-word.png" alt="" width="320" height="64"></span>
+        <img class="logo-full" src="assets/img/logo-original-400.webp" srcset="assets/img/logo-original-400.webp 400w, assets/img/logo-original-800.webp 800w" sizes="(min-width: 1200px) 200px, (min-width: 768px) 170px, 124px" alt="" width="880" height="665" fetchpriority="high">
       </a>
     </div>
   </header>
@@ -183,10 +183,37 @@
       </div>
     </section>
 
-    <div class="photo-band reveal">
-      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=70"
-           srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=640&q=70 640w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1024&q=70 1024w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=70 1600w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=70 2000w"
-           sizes="100vw" width="2000" height="1333" loading="lazy" alt="Contemporary house lit from within at dusk">
+    <!-- ============ PHOTO BAND (slider) ============ -->
+    <!-- Owner, 2026-10-21: this band became a slow two-photo slider with a short caption + link per slide.
+         The school photo was supplied by the owner (assets/img/home/school-*.webp). TODO: owner to confirm the right to
+         publish it and whether it is one of the firm's projects (the caption deliberately doesn't claim so), and to
+         confirm the caption wording. Captions use brief facts only (building types "schools … off-grid housing";
+         "the first 25 minutes of conversation are free"). -->
+    <div class="photo-band reveal" role="region" aria-roledescription="carousel" aria-label="Buildings we design" data-band="8000">
+      <div class="photo-band__slides">
+        <figure class="photo-band__slide is-active" aria-roledescription="slide" aria-label="1 of 2">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=70"
+               srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=640&q=70 640w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1024&q=70 1024w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=70 1600w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=70 2000w"
+               sizes="100vw" width="2000" height="1333" loading="lazy" alt="Contemporary house lit from within at dusk">
+          <figcaption class="photo-band__cap container">
+            <span class="photo-band__text">Homes that produce, store and manage their own energy.</span>
+            <a class="text-link" href="services.html">Explore our services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </figcaption>
+        </figure>
+        <figure class="photo-band__slide photo-band__slide--school" aria-roledescription="slide" aria-label="2 of 2" inert>
+          <img src="assets/img/home/school-1600.webp"
+               srcset="assets/img/home/school-640.webp 640w, assets/img/home/school-1024.webp 1024w, assets/img/home/school-1600.webp 1600w, assets/img/home/school-1920.webp 1920w"
+               sizes="100vw" width="1920" height="1080" loading="lazy" decoding="async" alt="Three-storey pale brick school with tall windows and solar shading, pupils crossing the playground under a clear blue sky">
+          <figcaption class="photo-band__cap container">
+            <span class="photo-band__text">From schools to off-grid housing: is your building a candidate? The first 25 minutes are free.</span>
+            <a class="text-link" href="contact.html">Talk to the team <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="photo-band__controls container" hidden>
+        <div class="photo-band__bars" aria-hidden="true"><span></span><span></span></div>
+        <button class="hero__pause photo-band__pause" type="button" aria-label="Pause slideshow"><span aria-hidden="true"></span></button>
+      </div>
     </div>
 
     <!-- ============ WHAT / HOW / WHERE ============ -->
@@ -295,8 +322,7 @@
       <div class="footer-grid">
         <div class="footer-about">
           <a class="brand" href="index.html" aria-label="Autonomous Building Technology, home">
-            <img class="brand__mark" src="assets/img/turbine.svg" alt="" width="44" height="44">
-            <span class="brand__text"><span class="brand__name">AUTONOMOUS</span><span class="brand__sub">BUILDING</span></span>
+            <img class="footer-logo" src="assets/img/logo-original-400.webp" srcset="assets/img/logo-original-400.webp 400w, assets/img/logo-original-800.webp 800w" sizes="200px" alt="" width="880" height="665" loading="lazy" decoding="async">
           </a>
           <p>Buildings that generate, store and manage their own energy, <span class="nw">on-grid</span> or fully <span class="nw">off-grid</span>.</p>
           <!-- TODO: add the full postcode once confirmed (the brief gives "G1 3B", which is incomplete) -->
