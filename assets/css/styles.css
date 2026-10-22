@@ -94,21 +94,20 @@ p { margin: 0 0 1.2em; }
 /* Two states (owner, 2026-10-08): "first glance" at the top of the page shows a big turbine and the owner's full
    logo over the photo; once scrolled (.is-scrolled, main.js) or with the menu open, both ease into a compact bar.
    The bar is the owner's lime GREEN (2026-10-21, "the green colour I would like to see on the menu") with navy text;
-   the logo keeps its own navy plate, and the turbine turns navy on the green (gold is too faint on lime). */
+   the logo keeps its own navy plate. The turbine stays gold in both states (owner, 2026-10-22). */
 .site-header { position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--header-h); display: flex; align-items: center; transition: background .35s, border-color .35s; border-bottom: 1px solid transparent; }
 .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 @media (min-width: 480px) { .site-header .container { gap: 24px; } }
 .site-header.is-scrolled, .site-header.is-open { background: var(--green); border-bottom-color: rgba(6,19,56,.12); }
 .is-scrolled :focus-visible, .is-open :focus-visible { outline-color: var(--navy-deep); }
-/* Turbine: gold over the photos, navy on the green bar */
-.brand__mark g { transition: fill .35s; }
-.is-scrolled .brand__mark g, .is-open .brand__mark g { fill: var(--navy-deep); }
+/* Turbine: the scheme's gold everywhere (owner, 2026-10-22). On the lime bar a faint navy shadow keeps the blades crisp. */
+.is-scrolled .brand__mark, .is-open .brand__mark { filter: drop-shadow(0 0 1px rgba(6,19,56,.55)); }
 
 .brand { display: flex; align-items: center; gap: 12px; color: #fff; min-height: 44px; margin-right: auto; }
 .brand:hover { color: inherit; }
 /* Wind turbine, top left: the tower stays still, only the rotor turns. At first glance it is scaled up from its
    top-left corner (transform, so the layout box and the nav never move). */
-.brand__mark { width: 60px; height: 60px; flex: none; transform-origin: left top; transform: scale(2.2); transition: transform .5s var(--ease); }
+.brand__mark { width: 60px; height: 60px; flex: none; transform-origin: left top; transform: scale(2.2); transition: transform .5s var(--ease), filter .35s; }
 .is-scrolled .brand__mark, .is-open .brand__mark { transform: none; }
 .brand__mark .turbine-rotor { transform-origin: 50px 40px; animation: spin 4s linear infinite; }
 .brand:hover .turbine-rotor { animation-duration: 2s; }
@@ -149,11 +148,9 @@ p { margin: 0 0 1.2em; }
 .nav__link { display: flex; align-items: center; min-height: 64px; font-size: 1.4rem; font-weight: 500; letter-spacing: -0.01em; color: var(--navy-deep); border-bottom: 1px solid rgba(6,19,56,.15); }
 .nav__link:hover { color: var(--navy-deep); }
 .nav__link[aria-current="page"] { font-weight: 700; text-decoration: underline 2px; text-underline-offset: 8px; }
-/* Header "Talk to the team": green over the photos, navy on the green bar and in the phone menu */
-.site-header .btn--gold { background: var(--green); color: var(--navy-deep); }
-.site-header .btn--gold:hover { background: var(--green-light); color: var(--navy-deep); }
-.is-scrolled .btn--gold, .is-open .btn--gold { background: var(--navy-deep); color: #fff; }
-.is-scrolled .btn--gold:hover, .is-open .btn--gold:hover { background: var(--navy); color: #fff; }
+/* Header "Contact Us" (owner, 2026-10-22): the scheme's gold button in every state, over the photos and on the green bar.
+   On the Contact page it is the current menu item, marked with a navy ring. */
+.nav__cta[aria-current="page"] { box-shadow: inset 0 0 0 2px var(--navy-deep); }
 .nav .btn { margin-top: 32px; }
 body.nav-open { overflow: hidden; }
 
@@ -178,11 +175,6 @@ body.nav-open { overflow: hidden; }
   /* Home, first glance: the hero already has "Talk to the team", so the header copy waits until you scroll.
      visibility (not display) keeps its space, so the nav never shifts. */
   body:has(.hero) .site-header:not(.is-scrolled) .nav .btn { opacity: 0; visibility: hidden; }
-}
-/* Contact page: the header CTA would link to the page you're on */
-.nav:has(.nav__link[href="contact.html"][aria-current="page"]) .btn { display: none; }
-@media (min-width: 1200px) {
-  .nav:has(.nav__link[href="contact.html"][aria-current="page"]) .btn { display: inline-flex; visibility: hidden; }
 }
 /* 1200-1349: the logo shares the right side, so tighten the nav to keep one line */
 @media (min-width: 1200px) and (max-width: 1349px) {
